@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T04:23:23.334Z",
+  "generatedAt": "2026-08-08T04:26:01.915Z",
   "entries": [
     {
       "label": "Tideline — Approval Cockpit",
@@ -11,6 +11,15 @@
       "pushed_at": null
     },
     {
+      "repo": "LGLenz/kestura",
+      "label": "Kestura — Main Site",
+      "url": "https://kestura.com",
+      "description": "Kestura UG (haftungsbeschränkt) i.G. — production website source (https://kestura.com)",
+      "group": "Core",
+      "order": 1,
+      "pushed_at": "2026-08-08T04:20:56Z"
+    },
+    {
       "repo": "LGLenz/techvisaassist-website",
       "label": "TechVisaAssist",
       "url": "https://techvisaassist.com",
@@ -18,6 +27,15 @@
       "group": "Core",
       "order": 4,
       "pushed_at": "2026-08-07T22:30:01Z"
+    },
+    {
+      "repo": "LGLenz/cybersecurity-phd-research-lab",
+      "label": "PhD Research Lab",
+      "url": "https://lglenz.github.io/eliaslenz-cybersecurity-phd-research-lab-mkdocs/",
+      "description": "PhD cybersecurity research lab — Policy-as-Code experiments",
+      "group": "Research",
+      "order": 5,
+      "pushed_at": "2026-08-04T04:30:56Z"
     },
     {
       "repo": "LGLenz/kuna-beauty-salon-website",
