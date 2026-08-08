@@ -62,7 +62,7 @@ const PINNED_EXTRA = [
   { label: "GitHub — LGLenz", url: "https://github.com/LGLenz", group: "Core", order: 99, repo: null, description: "All repositories" },
 ];
 
-async function gh(path) {
+async function gh(path, { soft = false } = {}) {
   const res = await fetch(API + path, {
     headers: {
       "Accept": "application/vnd.github+json",
@@ -71,7 +71,14 @@ async function gh(path) {
     },
   });
   if (!res.ok) {
+    // 404 (no such file) and, in soft mode, 403 (token lacks access to this
+    // repo) are treated as "nothing here" rather than fatal — one repo the
+    // token can't read must not break the whole hub build.
     if (res.status === 404) return null;
+    if (soft && (res.status === 403 || res.status === 401)) {
+      console.warn(`  (skip) ${res.status} for ${path}`);
+      return null;
+    }
     throw new Error(`GitHub ${res.status} for ${path}: ${await res.text()}`);
   }
   return res.json();
@@ -93,7 +100,7 @@ async function listRepos() {
 }
 
 async function getCname(fullName) {
-  const c = await gh(`/repos/${fullName}/contents/CNAME`);
+  const c = await gh(`/repos/${fullName}/contents/CNAME`, { soft: true });
   if (!c || !c.content) return null;
   const decoded = Buffer.from(c.content, "base64").toString("utf8").trim();
   return decoded.split(/\s+/)[0] || null;
