@@ -27,10 +27,19 @@ const API = "https://api.github.com";
 
 // Hosts that are docs/framework links, not the user's own live properties.
 const EXCLUDE_HOST_SUBSTR = [
-  "github.com",
   "platform.openai.com",
-  "github.io/", // raw github.io project pages are allowed only if no better URL; keep MkDocs though
 ];
+
+// Repos to skip entirely (the hub itself, redirect-only shells, etc.).
+const EXCLUDE_REPOS = new Set([
+  "LGLenz/kestura-hub",
+  "LGLenz/LGLenz.github.io",
+]);
+const EXCLUDE_REPO_NAME_RE = /redirect|\.github$|-template$|sandbox|scratch/i;
+
+// GitHub is a useful pinned link but auto-detected repo homepages pointing at
+// github.com are noise; only the curated PINNED_EXTRA GitHub link is kept.
+const EXCLUDE_AUTO_GITHUB = true;
 
 // Manual curation: pin order, friendly labels, and grouping for known repos.
 // Anything not listed still appears (auto-labeled) under "More".
@@ -88,8 +97,7 @@ async function getCname(fullName) {
 
 function isExcluded(url) {
   if (!url) return true;
-  // Allow github.io only when it is an MkDocs/docs project page (has a path).
-  if (url.includes("github.io/") && url.replace(/https?:\/\/[^/]+\//, "").length > 1) return false;
+  if (EXCLUDE_AUTO_GITHUB && /^https?:\/\/github\.com/i.test(url)) return true;
   return EXCLUDE_HOST_SUBSTR.some((h) => url.includes(h));
 }
 
@@ -102,6 +110,7 @@ async function build() {
   const entries = [];
 
   for (const r of repos) {
+    if (EXCLUDE_REPOS.has(r.full_name) || EXCLUDE_REPO_NAME_RE.test(r.name)) continue;
     const cname = await getCname(r.full_name);
     let url = cname ? `https://${cname}` : (r.homepage || "");
     if (isExcluded(url)) continue;
