@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T04:26:01.915Z",
+  "generatedAt": "2026-08-08T04:47:28.913Z",
   "entries": [
     {
       "label": "Tideline — Approval Cockpit",
@@ -17,7 +17,7 @@
       "description": "Kestura UG (haftungsbeschränkt) i.G. — production website source (https://kestura.com)",
       "group": "Core",
       "order": 1,
-      "pushed_at": "2026-08-08T04:20:56Z"
+      "pushed_at": "2026-08-08T04:47:11Z"
     },
     {
       "repo": "LGLenz/techvisaassist-website",
