@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-07-31T12:23:04.629Z",
+  "entries": [
+    {
+      "label": "Tideline — Approval Cockpit",
+      "url": "https://app.kestura.io",
+      "group": "Core",
+      "order": 0,
+      "repo": "LGLenz/tideline",
+      "description": "HITL approval cockpit",
+      "pushed_at": null
+    },
+    {
+      "repo": "LGLenz/techvisaassist-website",
+      "label": "TechVisaAssist",
+      "url": "https://techvisaassist.kestura.com",
+      "description": "TechVisaAssist — IT consultancy for digital public services & visa applications (Elias Lenz / DigiAssist). Part of the Kestura group. techvisaassist.kestura.com",
+      "group": "Core",
+      "order": 4,
+      "pushed_at": "2026-06-20T17:44:55Z"
+    },
+    {
+      "repo": "LGLenz/kuna-beauty-salon-website",
+      "label": "Kushy's Beauty Haven",
+      "url": "https://kushysbeautyhaven.com",
+      "description": "Digital branding & website project for Kuna's Beauty Salon (Inviolata Kuna Taaban) - ELB Consulting Tech partnership",
+      "group": "Partners",
+      "order": 9,
+      "pushed_at": "2026-07-01T21:25:33Z"
+    },
+    {
+      "repo": "LGLenz/mafrick-munene-advocates-website",
+      "label": "Mafrick & Munene Advocates",
+      "url": "https://mafrick-munene-advocates.com",
+      "description": "Website & digital presence for Mafrick & Company Advocates - legal, NGO, data protection, civic education (Kenya) - ELB Consulting Tech partnership",
+      "group": "Partners",
+      "order": 10,
+      "pushed_at": "2026-07-01T21:23:32Z"
+    },
+    {
+      "label": "GitHub — LGLenz",
+      "url": "https://github.com/LGLenz",
+      "group": "Core",
+      "order": 99,
+      "repo": null,
+      "description": "All repositories",
+      "pushed_at": null
+    }
+  ]
+}
