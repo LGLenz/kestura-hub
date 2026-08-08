@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-31T12:23:04.629Z",
+  "generatedAt": "2026-08-08T01:51:03.138Z",
   "entries": [
     {
       "label": "Tideline — Approval Cockpit",
@@ -13,11 +13,11 @@
     {
       "repo": "LGLenz/techvisaassist-website",
       "label": "TechVisaAssist",
-      "url": "https://techvisaassist.kestura.com",
+      "url": "https://techvisaassist.com",
       "description": "TechVisaAssist — IT consultancy for digital public services & visa applications (Elias Lenz / DigiAssist). Part of the Kestura group. techvisaassist.kestura.com",
       "group": "Core",
       "order": 4,
-      "pushed_at": "2026-06-20T17:44:55Z"
+      "pushed_at": "2026-08-07T22:30:01Z"
     },
     {
       "repo": "LGLenz/kuna-beauty-salon-website",
@@ -35,7 +35,34 @@
       "description": "Website & digital presence for Mafrick & Company Advocates - legal, NGO, data protection, civic education (Kenya) - ELB Consulting Tech partnership",
       "group": "Partners",
       "order": 10,
-      "pushed_at": "2026-07-01T21:23:32Z"
+      "pushed_at": "2026-08-01T14:23:35Z"
+    },
+    {
+      "repo": "LGLenz/bridgeaxis-consulting-redirect",
+      "label": "bridgeaxis consulting redirect",
+      "url": "https://bridgeaxis-consulting.de",
+      "description": "301 redirect: bridgeaxis-consulting.de -> kestura.com",
+      "group": "More",
+      "order": 50,
+      "pushed_at": "2026-08-07T22:25:46Z"
+    },
+    {
+      "repo": "LGLenz/eliaslenz-mbaberatung-redirect2",
+      "label": "eliaslenz mbaberatung redirect2",
+      "url": "https://eliaslenz-mbaberatung.de",
+      "description": "301 redirect: eliaslenz-mbaberatung.de -> digiassist.kestura.com",
+      "group": "More",
+      "order": 50,
+      "pushed_at": "2026-08-07T22:25:42Z"
+    },
+    {
+      "repo": "LGLenz/kestura-hub",
+      "label": "kestura hub",
+      "url": "https://hub.kestura.io",
+      "description": "",
+      "group": "More",
+      "order": 50,
+      "pushed_at": "2026-08-08T01:50:42Z"
     },
     {
       "label": "GitHub — LGLenz",
