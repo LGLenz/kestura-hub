@@ -79,13 +79,17 @@ async function gh(path) {
 
 async function listRepos() {
   const out = [];
-  for (let page = 1; page <= 10; page++) {
-    const batch = await gh(`/users/${OWNER}/repos?per_page=100&page=${page}&type=owner&sort=pushed`);
+  // With a token, use the authenticated endpoint so PRIVATE repos are included.
+  const base = TOKEN
+    ? `/user/repos?per_page=100&affiliation=owner&sort=pushed`
+    : `/users/${OWNER}/repos?per_page=100&type=owner&sort=pushed`;
+  for (let page = 1; page <= 15; page++) {
+    const batch = await gh(`${base}&page=${page}`);
     if (!batch || batch.length === 0) break;
     out.push(...batch);
     if (batch.length < 100) break;
   }
-  return out.filter((r) => !r.archived);
+  return out.filter((r) => !r.archived && r.owner && r.owner.login === OWNER);
 }
 
 async function getCname(fullName) {
