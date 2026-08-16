@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T04:55:22.534Z",
+  "generatedAt": "2026-08-16T04:44:17.912Z",
   "entries": [
     {
       "label": "Tideline — Approval Cockpit",
@@ -54,6 +54,15 @@
       "group": "Partners",
       "order": 10,
       "pushed_at": "2026-08-01T14:23:35Z"
+    },
+    {
+      "repo": "LGLenz/otariPhDResearchLab",
+      "label": "otariPhDResearchLab",
+      "url": "https://otari.ai/docs/gateway",
+      "description": "Open-source, OpenAI-compatible LLM gateway you run yourself. One endpoint for 40+ providers, with virtual keys, budgets, and usage tracking.",
+      "group": "More",
+      "order": 50,
+      "pushed_at": "2026-08-15T13:21:17Z"
     },
     {
       "label": "GitHub — LGLenz",
