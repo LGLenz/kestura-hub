@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T04:44:17.912Z",
+  "generatedAt": "2026-08-17T04:45:28.278Z",
   "entries": [
     {
       "label": "Tideline — Approval Cockpit",
@@ -26,7 +26,7 @@
       "description": "TechVisaAssist — IT consultancy for digital public services & visa applications (Elias Lenz / DigiAssist). Part of the Kestura group. techvisaassist.kestura.com",
       "group": "Core",
       "order": 4,
-      "pushed_at": "2026-08-07T22:30:01Z"
+      "pushed_at": "2026-08-16T15:27:01Z"
     },
     {
       "repo": "LGLenz/cybersecurity-phd-research-lab",
@@ -44,7 +44,7 @@
       "description": "Digital branding & website project for Kuna's Beauty Salon (Inviolata Kuna Taaban) - ELB Consulting Tech partnership",
       "group": "Partners",
       "order": 9,
-      "pushed_at": "2026-07-01T21:25:33Z"
+      "pushed_at": "2026-08-16T09:07:29Z"
     },
     {
       "repo": "LGLenz/mafrick-munene-advocates-website",
