@@ -130,6 +130,29 @@ function esc(s) {
   return String(s || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
+// A launcher whose cards 404 is worse than a launcher missing a card, and a
+// stale repo `homepage` field produces exactly that without any error. Probe
+// each resolved URL and report failures. Deliberately non-fatal: a target being
+// briefly down must not block a hub rebuild.
+async function warnDeadLinks(entries) {
+  const checks = entries.map(async (e) => {
+    try {
+      const res = await fetch(e.url, { method: "GET", redirect: "follow", signal: AbortSignal.timeout(15000) });
+      return res.status >= 400 ? `  (dead link) ${res.status} ${e.url}  [${e.repo || "pinned"}]` : null;
+    } catch (err) {
+      return `  (unreachable) ${e.url}  [${e.repo || "pinned"}] — ${err.name}`;
+    }
+  });
+  const problems = (await Promise.all(checks)).filter(Boolean);
+  if (problems.length) {
+    console.warn(`\n  ${problems.length} of ${entries.length} hub links did not answer OK:`);
+    for (const p of problems) console.warn(p);
+    console.warn("  Fix the target, correct the repo's homepage field, or curate a url.");
+  } else {
+    console.log(`  all ${entries.length} hub links answered OK`);
+  }
+}
+
 async function build() {
   const repos = await listRepos();
   const entries = [];
@@ -182,6 +205,8 @@ async function build() {
   const groupsOrder = ["Core", "Research", "Partners", "More"];
   const grouped = {};
   for (const e of entries) (grouped[e.group] ||= []).push(e);
+
+  await warnDeadLinks(entries);
 
   const generatedAt = new Date().toISOString();
 
@@ -257,7 +282,7 @@ async function build() {
     </header>
     ${cards}
     <footer>
-      <a href="https://eliaslenz-mbaberatung.de/impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
+      <a href="https://digiassist.kestura.com/impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
       <span class="stamp">Auto-generated ${esc(generatedAt)}</span>
     </footer>
   </div>
