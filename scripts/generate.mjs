@@ -55,11 +55,14 @@ const CURATION = {
   "LGLenz/mafrick-munene-advocates-website": { label: "Mafrick & Munene Advocates", group: "Partners", order: 10 },
 };
 
-// A manually pinned entry not derived from a repo (the app on the Hetzner VM,
-// 162.55.57.145, served by Caddy). Was app.kestura.io until 2026-08-18; that
-// domain went into redemption and no longer resolves.
+// Manually pinned entries not derived from a repo.
+//
+// Deliberately NOT listed: Tideline (LGLenz/tideline). Its only deployment is
+// tideline.elbconsultingtech.com, which is internal-only by design, and this
+// hub is a public page — publishing the hostname here would advertise it. It
+// previously pointed at app.kestura.io, which stopped resolving when kestura.io
+// went into redemption. If Tideline ever gets a public entry point, add it back.
 const PINNED_EXTRA = [
-  { label: "Tideline — Approval Cockpit", url: "https://tideline.elbconsultingtech.com", group: "Core", order: 0, repo: "LGLenz/tideline", description: "HITL approval cockpit (internal)" },
   { label: "GitHub — LGLenz", url: "https://github.com/LGLenz", group: "Core", order: 99, repo: null, description: "All repositories" },
 ];
 

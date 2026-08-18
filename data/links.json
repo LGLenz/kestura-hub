@@ -2,19 +2,10 @@
   "generatedAt": "2026-08-18T16:23:57.305Z",
   "entries": [
     {
-      "label": "Tideline — Approval Cockpit",
-      "url": "https://tideline.elbconsultingtech.com",
-      "group": "Core",
-      "order": 0,
-      "repo": "LGLenz/tideline",
-      "description": "HITL approval cockpit (internal)",
-      "pushed_at": null
-    },
-    {
       "repo": "LGLenz/kestura",
-      "label": "Kestura — Main Site",
+      "label": "Kestura \u2014 Main Site",
       "url": "https://kestura.com",
-      "description": "Kestura UG (haftungsbeschränkt) i.G. — production website source (https://kestura.com)",
+      "description": "Kestura UG (haftungsbeschr\u00e4nkt) i.G. \u2014 production website source (https://kestura.com)",
       "group": "Core",
       "order": 1,
       "pushed_at": "2026-08-08T05:32:57Z"
@@ -23,7 +14,7 @@
       "repo": "LGLenz/techvisaassist-website",
       "label": "TechVisaAssist",
       "url": "https://techvisaassist.com",
-      "description": "TechVisaAssist — IT consultancy for digital public services & visa applications (Elias Lenz / DigiAssist). Part of the Kestura group. techvisaassist.com",
+      "description": "TechVisaAssist \u2014 IT consultancy for digital public services & visa applications (Elias Lenz / DigiAssist). Part of the Kestura group. techvisaassist.com",
       "group": "Core",
       "order": 4,
       "pushed_at": "2026-08-16T15:27:01Z"
@@ -32,7 +23,7 @@
       "repo": "LGLenz/cybersecurity-phd-research-lab",
       "label": "PhD Research Lab",
       "url": "https://lglenz.github.io/eliaslenz-cybersecurity-phd-research-lab-mkdocs/",
-      "description": "PhD cybersecurity research lab — Policy-as-Code experiments",
+      "description": "PhD cybersecurity research lab \u2014 Policy-as-Code experiments",
       "group": "Research",
       "order": 5,
       "pushed_at": "2026-08-04T04:30:56Z"
@@ -65,7 +56,7 @@
       "pushed_at": "2026-08-15T13:21:17Z"
     },
     {
-      "label": "GitHub — LGLenz",
+      "label": "GitHub \u2014 LGLenz",
       "url": "https://github.com/LGLenz",
       "group": "Core",
       "order": 99,
