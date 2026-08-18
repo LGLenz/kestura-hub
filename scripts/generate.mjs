@@ -43,16 +43,26 @@ const EXCLUDE_AUTO_GITHUB = true;
 
 // Manual curation: pin order, friendly labels, and grouping for known repos.
 // Anything not listed still appears (auto-labeled) under "More".
+//
+// An optional `url` acts as a fallback for when CNAME discovery cannot see the
+// repo. Reading /repos/{repo}/contents/CNAME across PRIVATE sibling repos needs
+// a token with Contents:Read on them; when only the default GITHUB_TOKEN is
+// available every private repo answers 403 and its live site silently vanished
+// from the hub. A curated `url` keeps those sites listed regardless. Discovery
+// still wins when it works, so these values are a floor, not an override.
 const CURATION = {
-  "LGLenz/kestura":            { label: "Kestura — Main Site",        group: "Core",     order: 1 },
-  "LGLenz/kestura-ops":        { label: "Kestura Ops Dashboard",       group: "Core",     order: 2 },
-  "LGLenz/digiassist-website": { label: "DigiAssist",                  group: "Core",     order: 3 },
-  "LGLenz/techvisaassist-website": { label: "TechVisaAssist",         group: "Core",     order: 4 },
+  "LGLenz/kestura":            { label: "Kestura — Main Site",        group: "Core",     order: 1, url: "https://kestura.com" },
+  "LGLenz/digiassist-website": { label: "DigiAssist",                  group: "Core",     order: 3, url: "https://digiassist.kestura.com" },
+  "LGLenz/techvisaassist-website": { label: "TechVisaAssist",         group: "Core",     order: 4, url: "https://techvisaassist.com" },
   "LGLenz/cybersecurity-phd-research-lab": { label: "PhD Research Lab", group: "Research", order: 5 },
+  "LGLenz/PacTerraformPaC":    { label: "Policy-as-Code Framework",    group: "Research", order: 6, url: "https://lglenz.github.io/PacTerraformPaC/" },
   "LGLenz/jacob-njiru-profile":  { label: "Jacob Njiru — Profile",    group: "Partners", order: 7 },
   "LGLenz/andreas-lenz-profile": { label: "Andreas Lenz — Profile",   group: "Partners", order: 8 },
   "LGLenz/kuna-beauty-salon-website": { label: "Kushy's Beauty Haven", group: "Partners", order: 9 },
   "LGLenz/mafrick-munene-advocates-website": { label: "Mafrick & Munene Advocates", group: "Partners", order: 10 },
+  "LGLenz/elbconsultingtech-website": { label: "ELB Consulting Tech", group: "Partners", order: 11, url: "https://lglenz.github.io/elbconsultingtech-website/" },
+  "LGLenz/digiassist-apps":    { label: "DigiAssist Apps",             group: "More",     order: 20, url: "https://lglenz.github.io/digiassist-apps/" },
+  "LGLenz/binbot-website":     { label: "BinBot",                      group: "More",     order: 21, url: "https://lglenz.github.io/binbot-website/" },
 };
 
 // Manually pinned entries not derived from a repo.
@@ -124,12 +134,25 @@ async function build() {
   const repos = await listRepos();
   const entries = [];
 
+  let fallbackUsed = 0;
+
   for (const r of repos) {
     if (EXCLUDE_REPOS.has(r.full_name) || EXCLUDE_REPO_NAME_RE.test(r.name)) continue;
-    const cname = await getCname(r.full_name);
-    let url = cname ? `https://${cname}` : (r.homepage || "");
-    if (isExcluded(url)) continue;
     const cur = CURATION[r.full_name] || {};
+    const cname = await getCname(r.full_name);
+    // Resolution order: discovered CNAME, then the repo's homepage field, then
+    // the curated fallback. The fallback exists because a token without read
+    // access to private siblings makes getCname return null for them.
+    let url = cname ? `https://${cname}` : (r.homepage || "");
+    if (!url && cur.url) {
+      url = cur.url;
+      fallbackUsed++;
+      console.warn(`  (fallback) ${r.full_name} -> ${url} (CNAME not readable)`);
+    }
+    if (isExcluded(url)) {
+      if (!url) console.warn(`  (no url) ${r.full_name} — not listed`);
+      continue;
+    }
     entries.push({
       repo: r.full_name,
       label: cur.label || r.name.replace(/[-_]/g, " ").replace(/\bwebsite\b/i, "").trim(),
@@ -147,6 +170,14 @@ async function build() {
   }
 
   entries.sort((a, b) => (a.order - b.order) || a.label.localeCompare(b.label));
+
+  if (fallbackUsed) {
+    console.warn(
+      `\n  ${fallbackUsed} entr${fallbackUsed === 1 ? "y" : "ies"} resolved from curated fallback URLs.\n` +
+      `  This means CNAME discovery could not read those repos — set a HUB_TOKEN\n` +
+      `  secret with Contents:Read on the LGLenz repos to restore auto-discovery.`,
+    );
+  }
 
   const groupsOrder = ["Core", "Research", "Partners", "More"];
   const grouped = {};
