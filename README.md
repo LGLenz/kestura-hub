@@ -1,7 +1,7 @@
 # Kestura Hub
 
 Self-hosted, auto-updating quick-access launcher for all Kestura apps, sites and dashboards.
-Served via GitHub Pages at **https://hub.kestura.io**.
+Served via GitHub Pages at **https://hub.kestura.com**.
 
 ## How it stays current (fully automatic)
 `scripts/generate.mjs` scans every non-archived repo under `LGLenz`, derives each
@@ -20,4 +20,4 @@ Edit the `CURATION` and `PINNED_EXTRA` maps in `scripts/generate.mjs` to set
 friendly labels, ordering, and groups. Everything else is auto-listed under "More".
 
 ## Custom domain
-`CNAME` = `hub.kestura.io`. Add a DNS CNAME record `hub → LGLenz.github.io` at IONOS.
+`CNAME` = `hub.kestura.com`. Add a DNS CNAME record `hub → LGLenz.github.io` at Hetzner DNS (kestura.com zone).
