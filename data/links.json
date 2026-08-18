@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-18T16:25:13.834Z",
+  "generatedAt": "2026-08-18T16:34:56.920Z",
   "entries": [
     {
       "repo": "LGLenz/kestura",
@@ -9,6 +9,15 @@
       "group": "Core",
       "order": 1,
       "pushed_at": "2026-08-08T05:32:57Z"
+    },
+    {
+      "repo": "LGLenz/digiassist-website",
+      "label": "DigiAssist",
+      "url": "https://digiassist.kestura.com",
+      "description": "DigiAssist - Elias Lenz MBA Digital Consulting. Personal freelance consultancy website for IT, Cybersecurity & AI advisory services. Linked to Kestura UG (haftungsbeschränkt) ",
+      "group": "Core",
+      "order": 3,
+      "pushed_at": "2026-08-07T22:24:28Z"
     },
     {
       "repo": "LGLenz/techvisaassist-website",
@@ -29,6 +38,15 @@
       "pushed_at": "2026-08-04T04:30:56Z"
     },
     {
+      "repo": "LGLenz/PacTerraformPaC",
+      "label": "Policy-as-Code Framework",
+      "url": "https://lglenz.github.io/PacTerraformPaC/",
+      "description": "",
+      "group": "Research",
+      "order": 6,
+      "pushed_at": "2026-06-08T09:36:16Z"
+    },
+    {
       "repo": "LGLenz/kuna-beauty-salon-website",
       "label": "Kushy's Beauty Haven",
       "url": "https://kushysbeautyhaven.com",
@@ -45,6 +63,33 @@
       "group": "Partners",
       "order": 10,
       "pushed_at": "2026-08-01T14:23:35Z"
+    },
+    {
+      "repo": "LGLenz/elbconsultingtech-website",
+      "label": "ELB Consulting Tech",
+      "url": "https://lglenz.github.io/elbconsultingtech-website/",
+      "description": "Kestura / elbconsultingtech.com frontend with Amplitude Analytics (EU) — autocapture + Session Replay",
+      "group": "Partners",
+      "order": 11,
+      "pushed_at": "2026-08-17T00:17:12Z"
+    },
+    {
+      "repo": "LGLenz/digiassist-apps",
+      "label": "DigiAssist Apps",
+      "url": "https://lglenz.github.io/digiassist-apps/",
+      "description": "DigiAssist micro-apps collection",
+      "group": "More",
+      "order": 20,
+      "pushed_at": "2026-08-04T04:30:56Z"
+    },
+    {
+      "repo": "LGLenz/binbot-website",
+      "label": "BinBot",
+      "url": "https://lglenz.github.io/binbot-website/",
+      "description": "",
+      "group": "More",
+      "order": 21,
+      "pushed_at": "2026-06-20T03:22:32Z"
     },
     {
       "repo": "LGLenz/otariPhDResearchLab",
