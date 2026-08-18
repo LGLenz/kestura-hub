@@ -3,11 +3,11 @@
   "entries": [
     {
       "label": "Tideline — Approval Cockpit",
-      "url": "https://app.kestura.io",
+      "url": "https://tideline.elbconsultingtech.com",
       "group": "Core",
       "order": 0,
       "repo": "LGLenz/tideline",
-      "description": "HITL approval cockpit",
+      "description": "HITL approval cockpit (internal)",
       "pushed_at": null
     },
     {
@@ -23,7 +23,7 @@
       "repo": "LGLenz/techvisaassist-website",
       "label": "TechVisaAssist",
       "url": "https://techvisaassist.com",
-      "description": "TechVisaAssist — IT consultancy for digital public services & visa applications (Elias Lenz / DigiAssist). Part of the Kestura group. techvisaassist.kestura.com",
+      "description": "TechVisaAssist — IT consultancy for digital public services & visa applications (Elias Lenz / DigiAssist). Part of the Kestura group. techvisaassist.com",
       "group": "Core",
       "order": 4,
       "pushed_at": "2026-08-16T15:27:01Z"

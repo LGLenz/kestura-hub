@@ -49,16 +49,17 @@ const CURATION = {
   "LGLenz/digiassist-website": { label: "DigiAssist",                  group: "Core",     order: 3 },
   "LGLenz/techvisaassist-website": { label: "TechVisaAssist",         group: "Core",     order: 4 },
   "LGLenz/cybersecurity-phd-research-lab": { label: "PhD Research Lab", group: "Research", order: 5 },
-  "LGLenz/nickson-lenz-profile": { label: "Nickson Lenz — Profile",   group: "Partners", order: 6 },
   "LGLenz/jacob-njiru-profile":  { label: "Jacob Njiru — Profile",    group: "Partners", order: 7 },
   "LGLenz/andreas-lenz-profile": { label: "Andreas Lenz — Profile",   group: "Partners", order: 8 },
   "LGLenz/kuna-beauty-salon-website": { label: "Kushy's Beauty Haven", group: "Partners", order: 9 },
   "LGLenz/mafrick-munene-advocates-website": { label: "Mafrick & Munene Advocates", group: "Partners", order: 10 },
 };
 
-// A manually pinned entry not derived from a repo (the app on the Hetzner VM).
+// A manually pinned entry not derived from a repo (the app on the Hetzner VM,
+// 162.55.57.145, served by Caddy). Was app.kestura.io until 2026-08-18; that
+// domain went into redemption and no longer resolves.
 const PINNED_EXTRA = [
-  { label: "Tideline — Approval Cockpit", url: "https://app.kestura.io", group: "Core", order: 0, repo: "LGLenz/tideline", description: "HITL approval cockpit" },
+  { label: "Tideline — Approval Cockpit", url: "https://tideline.elbconsultingtech.com", group: "Core", order: 0, repo: "LGLenz/tideline", description: "HITL approval cockpit (internal)" },
   { label: "GitHub — LGLenz", url: "https://github.com/LGLenz", group: "Core", order: 99, repo: null, description: "All repositories" },
 ];
 
