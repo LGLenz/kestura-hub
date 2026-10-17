@@ -1,0 +1,68 @@
+name: Live Site Check
+
+# Checks that the live site(s) load over HTTPS with a valid certificate.
+# Runs on every push to main (after Pages has had time to deploy), on every
+# pull request, daily, and on demand. A failure marks the run red; GitHub
+# then e-mails the repository owner per your notification settings.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "41 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-site-check-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SITES: "https://hub.kestura.com/"
+  MIN_CERT_DAYS: "14"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Give GitHub Pages time to deploy
+        if: github.event_name == 'push'
+        run: sleep 120
+
+      - name: HTTPS, certificate and status checks
+        shell: bash
+        run: |
+          fail=0
+          summary="| URL | HTTP | Final URL | Cert valid (days) | HTTP→HTTPS |\n|---|---|---|---|---|\n"
+          for u in $SITES; do
+            host=$(echo "$u" | awk -F/ '{print $3}')
+            # Strict TLS: curl fails on hostname mismatch / untrusted / expired certs
+            if out=$(curl -sS -o /dev/null -L --max-time 30 --retry 2 --retry-delay 10 \
+                       -w '%{http_code} %{url_effective}' "$u" 2>&1); then
+              code=${out%% *}; final=${out#* }
+            else
+              code="ERR"; final="$(echo "$out" | tail -1)"
+            fi
+            if [ "$code" != "200" ]; then echo "::error::$u -> $code ($final)"; fail=1; fi
+            case "$final" in https://*|curl*) ;; *) echo "::error::$u ended on non-HTTPS URL $final"; fail=1;; esac
+
+            end=$(echo | openssl s_client -servername "$host" -connect "$host:443" 2>/dev/null \
+                  | openssl x509 -noout -enddate 2>/dev/null | cut -d= -f2)
+            if [ -n "$end" ]; then
+              days=$(( ( $(date -d "$end" +%s) - $(date +%s) ) / 86400 ))
+              if [ "$days" -lt "$MIN_CERT_DAYS" ]; then echo "::error::$host certificate expires in $days days"; fail=1; fi
+            else
+              days="n/a"; echo "::error::$host: could not read TLS certificate"; fail=1
+            fi
+
+            plain=$(curl -s -o /dev/null -L --max-time 20 -w '%{url_effective}' "http://$host/" 2>/dev/null || echo "ERR")
+            case "$plain" in https://*) redir="yes";; *) redir="no ($plain)"; echo "::warning::http://$host does not redirect to HTTPS";; esac
+
+            summary+="| $u | $code | $final | $days | $redir |\n"
+          done
+          printf "## Live site check\n\n$summary" >> "$GITHUB_STEP_SUMMARY"
+          exit $fail
