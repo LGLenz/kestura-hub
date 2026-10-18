@@ -42,7 +42,7 @@ jobs:
             host=$(echo "$u" | awk -F/ '{print $3}')
             # Strict TLS: curl fails on hostname mismatch / untrusted / expired certs
             if out=$(curl -sS -o /dev/null -L --max-time 30 --retry 2 --retry-delay 10 \
-                       -w '%{http_code} %{url_effective}' "$u" 2>&1); then
+                       -w '%{http_code} %{url_effective}' "$u"); then
               code=${out%% *}; final=${out#* }
             else
               code="ERR"; final="$(echo "$out" | tail -1)"
@@ -60,7 +60,7 @@ jobs:
             fi
 
             plain=$(curl -s -o /dev/null -L --max-time 20 -w '%{url_effective}' "http://$host/" 2>/dev/null || echo "ERR")
-            case "$plain" in https://*) redir="yes";; *) redir="no ($plain)"; echo "::warning::http://$host does not redirect to HTTPS";; esac
+            case "$plain" in https://*) redir="yes";; *) redir="no ($plain)"; echo "::error::http://$host does not redirect to HTTPS"; fail=1;; esac
 
             summary+="| $u | $code | $final | $days | $redir |\n"
           done
