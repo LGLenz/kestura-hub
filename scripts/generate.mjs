@@ -136,7 +136,7 @@ async function listRepos() {
       name: fullName.split("/")[1],
       owner: { login: OWNER },
       archived: false,
-      homepage: cur.canonicalUrl || cur.url || old.url || "",
+      homepage: cur.canonicalUrl || (cur.url ? "" : old.url || ""),
       description: cur.description || old.description || "",
       pushed_at: old.pushed_at || null,
     });
