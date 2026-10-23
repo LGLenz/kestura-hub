@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T04:42:53.860Z",
+  "generatedAt": "2026-10-23T11:44:23.883Z",
   "entries": [
     {
       "repo": "LGLenz/kestura",
@@ -8,7 +8,7 @@
       "description": "Kestura UG (haftungsbeschränkt) i.G. — production website source (https://kestura.com)",
       "group": "Core",
       "order": 1,
-      "pushed_at": "2026-08-22T01:00:22Z"
+      "pushed_at": "2026-10-18T06:08:18Z"
     },
     {
       "repo": "LGLenz/digiassist-website",
@@ -17,7 +17,7 @@
       "description": "DigiAssist - Elias Lenz MBA Digital Consulting. Personal freelance consultancy website for IT, Cybersecurity & AI advisory services. Linked to Kestura UG (haftungsbeschränkt) ",
       "group": "Core",
       "order": 3,
-      "pushed_at": "2026-08-22T01:01:18Z"
+      "pushed_at": "2026-10-17T18:16:37Z"
     },
     {
       "repo": "LGLenz/techvisaassist-website",
@@ -26,7 +26,7 @@
       "description": "TechVisaAssist — IT consultancy for digital public services & visa applications (Elias Lenz / DigiAssist). Part of the Kestura group. techvisaassist.com",
       "group": "Core",
       "order": 4,
-      "pushed_at": "2026-08-22T01:03:28Z"
+      "pushed_at": "2026-10-18T09:40:24Z"
     },
     {
       "repo": "LGLenz/PacTerraformPaC",
@@ -35,7 +35,7 @@
       "description": "",
       "group": "Research",
       "order": 6,
-      "pushed_at": "2026-06-08T09:36:16Z"
+      "pushed_at": "2026-10-17T15:18:51Z"
     },
     {
       "repo": "LGLenz/kuna-beauty-salon-website",
@@ -44,7 +44,7 @@
       "description": "Digital branding & website project for Kuna's Beauty Salon (Inviolata Kuna Taaban) - ELB Consulting Tech partnership",
       "group": "Partners",
       "order": 9,
-      "pushed_at": "2026-08-16T09:07:29Z"
+      "pushed_at": "2026-10-17T03:08:55Z"
     },
     {
       "repo": "LGLenz/mafrick-munene-advocates-website",
@@ -53,22 +53,13 @@
       "description": "Website & digital presence for Mafrick & Company Advocates - legal, NGO, data protection, civic education (Kenya) - ELB Consulting Tech partnership",
       "group": "Partners",
       "order": 10,
-      "pushed_at": "2026-08-01T14:23:35Z"
-    },
-    {
-      "repo": "LGLenz/elbconsultingtech-website",
-      "label": "ELB Consulting Tech",
-      "url": "https://lglenz.github.io/elbconsultingtech-website/",
-      "description": "Kestura / elbconsultingtech.com frontend with Amplitude Analytics (EU) — autocapture + Session Replay",
-      "group": "Partners",
-      "order": 11,
-      "pushed_at": "2026-08-17T00:17:12Z"
+      "pushed_at": "2026-10-17T05:06:45Z"
     },
     {
       "repo": "LGLenz/digiassist-apps",
-      "label": "DigiAssist Apps",
-      "url": "https://lglenz.github.io/digiassist-apps/",
-      "description": "DigiAssist micro-apps collection",
+      "label": "DigiAssist Resources",
+      "url": "https://digiassist.kestura.com/#resources",
+      "description": "Apps and tools on the main DigiAssist website.",
       "group": "More",
       "order": 20,
       "pushed_at": "2026-08-04T04:30:56Z"
@@ -80,16 +71,7 @@
       "description": "",
       "group": "More",
       "order": 21,
-      "pushed_at": "2026-06-20T03:22:32Z"
-    },
-    {
-      "repo": "LGLenz/otariPhDResearchLab",
-      "label": "otariPhDResearchLab",
-      "url": "https://otari.ai/docs/gateway",
-      "description": "Open-source, OpenAI-compatible LLM gateway you run yourself. One endpoint for 40+ providers, with virtual keys, budgets, and usage tracking.",
-      "group": "More",
-      "order": 50,
-      "pushed_at": "2026-08-22T02:56:28Z"
+      "pushed_at": "2026-08-29T11:13:42Z"
     },
     {
       "label": "GitHub — LGLenz",
