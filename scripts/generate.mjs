@@ -2,7 +2,7 @@
 /**
  * Kestura Hub generator.
  *
- * Scans all non-archived repos under the LGLenz GitHub account, derives each
+ * Refreshes explicitly curated repos under the LGLenz GitHub account, derives each
  * repo's live URL (CNAME file first, then the repo homepage field), classifies
  * it, and writes:
  *   - data/links.json  (machine-readable inventory)
@@ -17,12 +17,14 @@
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 
 const OWNER = "LGLenz";
 const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
+const USE_GH_CLI = process.env.GH_USE_CLI === "1";
 const API = "https://api.github.com";
 
 // Hosts that are docs/framework links, not the user's own live properties.
@@ -34,6 +36,12 @@ const EXCLUDE_HOST_SUBSTR = [
 const EXCLUDE_REPOS = new Set([
   "LGLenz/kestura-hub",
   "LGLenz/LGLenz.github.io",
+  // Service content has moved to the main Kestura website.
+  "LGLenz/elbconsultingtech-website",
+  // Unresolved names are not launch targets until separately approved.
+  "LGLenz/jacob-njiru-profile",
+  "LGLenz/andreas-lenz-profile",
+  "LGLenz/kestura-checkout",
 ]);
 const EXCLUDE_REPO_NAME_RE = /redirect|\.github$|-template$|sandbox|scratch/i;
 
@@ -42,7 +50,8 @@ const EXCLUDE_REPO_NAME_RE = /redirect|\.github$|-template$|sandbox|scratch/i;
 const EXCLUDE_AUTO_GITHUB = true;
 
 // Manual curation: pin order, friendly labels, and grouping for known repos.
-// Anything not listed still appears (auto-labeled) under "More".
+// Only explicitly curated repositories are eligible for this public directory.
+// New private-repository homepages must not become public automatically.
 //
 // An optional `url` acts as a fallback for when CNAME discovery cannot see the
 // repo. Reading /repos/{repo}/contents/CNAME across PRIVATE sibling repos needs
@@ -58,10 +67,10 @@ const CURATION = {
   "LGLenz/PacTerraformPaC":    { label: "Policy-as-Code Framework",    group: "Research", order: 6, url: "https://lglenz.github.io/PacTerraformPaC/" },
   "LGLenz/jacob-njiru-profile":  { label: "Jacob Njiru — Profile",    group: "Partners", order: 7 },
   "LGLenz/andreas-lenz-profile": { label: "Andreas Lenz — Profile",   group: "Partners", order: 8 },
-  "LGLenz/kuna-beauty-salon-website": { label: "Kushy's Beauty Haven", group: "Partners", order: 9 },
-  "LGLenz/mafrick-munene-advocates-website": { label: "Mafrick & Munene Advocates", group: "Partners", order: 10 },
+  "LGLenz/kuna-beauty-salon-website": { label: "Kushy's Beauty Haven", group: "Partners", order: 9, url: "https://kushysbeautyhaven.com" },
+  "LGLenz/mafrick-munene-advocates-website": { label: "Mafrick & Munene Advocates", group: "Partners", order: 10, url: "https://mafrick-munene-advocates.com" },
   "LGLenz/elbconsultingtech-website": { label: "ELB Consulting Tech", group: "Partners", order: 11, url: "https://lglenz.github.io/elbconsultingtech-website/" },
-  "LGLenz/digiassist-apps":    { label: "DigiAssist Apps",             group: "More",     order: 20, url: "https://lglenz.github.io/digiassist-apps/" },
+  "LGLenz/digiassist-apps":    { label: "DigiAssist Resources",        group: "More",     order: 20, canonicalUrl: "https://digiassist.kestura.com/#resources", description: "Apps and tools on the main DigiAssist website." },
   "LGLenz/binbot-website":     { label: "BinBot",                      group: "More",     order: 21, url: "https://lglenz.github.io/binbot-website/" },
 };
 
@@ -77,6 +86,18 @@ const PINNED_EXTRA = [
 ];
 
 async function gh(path, { soft = false } = {}) {
+  if (USE_GH_CLI) {
+    try {
+      return JSON.parse(execFileSync("gh", ["api", path], {
+        encoding: "utf8",
+        maxBuffer: 16 * 1024 * 1024,
+        stdio: ["ignore", "pipe", "pipe"],
+      }));
+    } catch (error) {
+      if (soft || /HTTP 404/.test(String(error.stderr))) return null;
+      throw error;
+    }
+  }
   const res = await fetch(API + path, {
     headers: {
       "Accept": "application/vnd.github+json",
@@ -99,18 +120,28 @@ async function gh(path, { soft = false } = {}) {
 }
 
 async function listRepos() {
+  const cached = existsSync(join(ROOT, "data/links.json"))
+    ? JSON.parse(readFileSync(join(ROOT, "data/links.json"), "utf8")).entries || []
+    : [];
+  const byRepo = new Map(cached.filter((e) => e.repo).map((e) => [e.repo, e]));
   const out = [];
-  // With a token, use the authenticated endpoint so PRIVATE repos are included.
-  const base = TOKEN
-    ? `/user/repos?per_page=100&affiliation=owner&sort=pushed`
-    : `/users/${OWNER}/repos?per_page=100&type=owner&sort=pushed`;
-  for (let page = 1; page <= 15; page++) {
-    const batch = await gh(`${base}&page=${page}`);
-    if (!batch || batch.length === 0) break;
-    out.push(...batch);
-    if (batch.length < 100) break;
+  // Installation tokens cannot enumerate /user/repos. Inspect approved names
+  // directly; absent cross-repository access must not break publication.
+  for (const [fullName, cur] of Object.entries(CURATION)) {
+    if (EXCLUDE_REPOS.has(fullName)) continue;
+    const live = await gh(`/repos/${fullName}`, { soft: true });
+    const old = byRepo.get(fullName) || {};
+    out.push(live || {
+      full_name: fullName,
+      name: fullName.split("/")[1],
+      owner: { login: OWNER },
+      archived: false,
+      homepage: cur.canonicalUrl || cur.url || old.url || "",
+      description: cur.description || old.description || "",
+      pushed_at: old.pushed_at || null,
+    });
   }
-  return out.filter((r) => !r.archived && r.owner && r.owner.login === OWNER);
+  return out.filter((r) => !r.archived);
 }
 
 async function getCname(fullName) {
@@ -161,12 +192,13 @@ async function build() {
 
   for (const r of repos) {
     if (EXCLUDE_REPOS.has(r.full_name) || EXCLUDE_REPO_NAME_RE.test(r.name)) continue;
+    if (!Object.hasOwn(CURATION, r.full_name)) continue;
     const cur = CURATION[r.full_name] || {};
     const cname = await getCname(r.full_name);
     // Resolution order: discovered CNAME, then the repo's homepage field, then
     // the curated fallback. The fallback exists because a token without read
     // access to private siblings makes getCname return null for them.
-    let url = cname ? `https://${cname}` : (r.homepage || "");
+    let url = cur.canonicalUrl || (cname ? `https://${cname}` : (r.homepage || ""));
     if (!url && cur.url) {
       url = cur.url;
       fallbackUsed++;
@@ -180,7 +212,7 @@ async function build() {
       repo: r.full_name,
       label: cur.label || r.name.replace(/[-_]/g, " ").replace(/\bwebsite\b/i, "").trim(),
       url,
-      description: r.description || "",
+      description: cur.description || r.description || "",
       group: cur.group || "More",
       order: cur.order ?? 50,
       pushed_at: r.pushed_at,
